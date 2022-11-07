@@ -1,0 +1,52 @@
+﻿<Window x:Class="Computer_Graphics_1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Computer_Graphics_1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1280">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="520" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="3" MinWidth="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="RGB" Grid.Column="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Slider x:Name="R" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Red" Maximum="255" Minimum="0" Height="32" />
+                <Slider x:Name="G" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Green" Maximum="255" Minimum="0" />
+                <Slider x:Name="B" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Blue" Maximum="255" Minimum="0"/>
+            </Grid>
+            <Border x:Name="Color"
+                Grid.Column="1"
+                BorderBrush="Black"
+                BorderThickness="5"
+                CornerRadius="3"
+                />
+            <Grid x:Name="CMYK" Grid.Column="2" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Slider x:Name="C" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Cyan" Maximum="255" Minimum="0" />
+                <Slider x:Name="M" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Magenta" Maximum="255" Minimum="0"  />
+                <Slider x:Name="Y" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Yellow" Maximum="255" Minimum="0"/>
+                <Slider x:Name="K" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Black" Maximum="255" Minimum="0" />
+            </Grid>
+        </Grid>
+        
+    </Grid>
+</Window>
