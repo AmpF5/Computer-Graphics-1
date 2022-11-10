@@ -80,14 +80,13 @@ namespace Computer_Graphics_1
                         double Y2 = Mouse.GetPosition(this).Y;
                         Rectangle rectangle = new Rectangle()
                         {
-                            Height = Math.Sqrt(Math.Pow(X1 - X1, 2) + Math.Pow(Y2 - Y1, 2)),
-                            Width = Math.Sqrt(Math.Pow(X1 - X2, 2) + Math.Pow(Y1 - Y1, 2)),
+                            Height = Math.Sqrt(Math.Pow(Y2 - Y1, 2)),
+                            Width = Math.Sqrt(Math.Pow(X1 - X2, 2)),
                             Stroke = Brushes.Black,
                             StrokeThickness = 2,
                         };
-                        //rectangle.
-                        Canvas.SetTop(rectangle, X1);
-                        Canvas.SetLeft(rectangle, Y1);
+                        Canvas.SetTop(rectangle, Y1);
+                        Canvas.SetLeft(rectangle, X1);
                         Canvas_Board.Children.Add(rectangle);
                         break;
                 }

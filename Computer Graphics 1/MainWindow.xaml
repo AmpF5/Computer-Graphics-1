@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Canvas x:Name="Canvas_Board" Focusable="True" Background="White" MouseLeftButtonDown="canvas_MouseLeftButtonDown" MouseLeftButtonUp="canvas_MouseLeftButtonUp" MouseMove="Canvas_Board_MouseMove">
-                
+                <Rectangle Width="100" Height="100" Focusable="True" Fill="Black"  />
             </Canvas>
         </Grid>
         <Grid x:Name="Choose_Buttons" Grid.Row="1">
