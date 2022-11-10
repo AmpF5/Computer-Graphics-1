@@ -89,6 +89,19 @@ namespace Computer_Graphics_1
                         Canvas.SetLeft(rectangle, X1);
                         Canvas_Board.Children.Add(rectangle);
                         break;
+                    case 2:
+                        X1 = StartPoint.X;
+                        Y1 = StartPoint.Y;
+                        X2 = Mouse.GetPosition(this).X;
+                        Y2 = Mouse.GetPosition(this).Y;
+                        Ellipse ellipse = new();
+                        ellipse.Width = ellipse.Height = Math.Sqrt(Math.Pow(X2 - X1, 2) + Math.Pow(Y2 - Y1, 2));
+                        ellipse.Stroke = Brushes.Black;
+                        ellipse.StrokeThickness = 2;
+                        Canvas.SetTop(ellipse, Y1);
+                        Canvas.SetLeft(ellipse, X1);
+                        Canvas_Board.Children.Add(ellipse);
+                        break;
                 }
                 IsFirstPoint = true;
             }
