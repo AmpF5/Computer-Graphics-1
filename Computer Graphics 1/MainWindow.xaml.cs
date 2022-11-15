@@ -33,8 +33,9 @@ namespace Computer_Graphics_1
         bool IsFirstPoint = true;
         Point StartPoint;
         byte r = 0, g = 0, b = 0;
-        int c = 0, m = 0, y = 0;
+        double c = 0, m = 0, y = 0;
         double k;
+        SolidColorBrush brush = new(Color.FromRgb(0,0,0));
 
         public MainWindow()
         {
@@ -44,7 +45,6 @@ namespace Computer_Graphics_1
         private void Line_Click(object sender, RoutedEventArgs e)
         {
             index = 0;
-
         }
 
         private void Rectangle_Click(object sender, RoutedEventArgs e)
@@ -75,7 +75,7 @@ namespace Computer_Graphics_1
                             Y1 = StartPoint.Y,
                             X2 = Mouse.GetPosition(this).X,
                             Y2 = Mouse.GetPosition(this).Y,
-                            Stroke = Brushes.Black 
+                            Stroke = brush
                         };
                         Canvas_Board.Children.Add(line);
                         break;
@@ -88,7 +88,7 @@ namespace Computer_Graphics_1
                         {
                             Height = Math.Sqrt(Math.Pow(Y2 - Y1, 2)),
                             Width = Math.Sqrt(Math.Pow(X1 - X2, 2)),
-                            Stroke = Brushes.Black,
+                            Stroke = brush,
                             StrokeThickness = 2,
                         };
                         Canvas.SetTop(rectangle, Y1);
@@ -102,7 +102,7 @@ namespace Computer_Graphics_1
                         Y2 = Mouse.GetPosition(this).Y;
                         Ellipse ellipse = new();
                         ellipse.Width = ellipse.Height = Math.Sqrt(Math.Pow(X2 - X1, 2) + Math.Pow(Y2 - Y1, 2));
-                        ellipse.Stroke = Brushes.Black;
+                        ellipse.Stroke = brush;
                         ellipse.StrokeThickness = 2;
                         Canvas.SetTop(ellipse, Y1);
                         Canvas.SetLeft(ellipse, X1);
@@ -180,6 +180,16 @@ namespace Computer_Graphics_1
             //}
         }
 
+        private void Change_Color_Click(object sender, RoutedEventArgs e)
+        {
+            brush = GetBrush();
+        }
+        private SolidColorBrush GetBrush()
+        {
+            var brush = new SolidColorBrush(aColor.Color);
+            return brush;
+        }
+
         private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
 
@@ -207,7 +217,7 @@ namespace Computer_Graphics_1
         private void ChangeColorCmyk(char colorLetter, TextBox textBox)
         {
             if (textBox.Text == "") textBox.Text = "0";
-            var x = Int32.Parse(textBox.Text);
+            var x = Double.Parse(textBox.Text);
             switch (colorLetter)
             {
                 case 'c':
@@ -224,7 +234,7 @@ namespace Computer_Graphics_1
                     break;
             }
             CmykToRgb(c, m, y, k);
-            
+
         }
         private void RgbToCmyk(byte r, byte g, byte b)
         {
@@ -238,13 +248,13 @@ namespace Computer_Graphics_1
             //if (Double.IsNaN(m)) m = 0;
             y = (int)((1 - Pb - k) / (1 - k) * 100);
             //if (Double.IsNaN(y)) y = 0;
-            //C_Value.Text = c.ToString();
-            //Y_Value.Text = y.ToString();
-            //M_Value.Text = m.ToString();
-            //K_Value.Text = Math.Round(k * 100, 0).ToString();
-
+            C_Value.Text = c.ToString();
+            Y_Value.Text = y.ToString();
+            M_Value.Text = m.ToString();
+            K_Value.Text = Math.Round(k * 100, 0).ToString();
+ 
         }
-        private void CmykToRgb(int c, int m, int y, double k)
+        private void CmykToRgb(double c, double m, double y, double k)
         {
             var Pc = c / 100.0;
             var Pm = m / 100.0;
