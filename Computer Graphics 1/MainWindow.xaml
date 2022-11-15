@@ -33,19 +33,25 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBox x:Name="R_Value" Grid.Row="0" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,325,0" Focusable="True" Text="{Binding ElementName=R, Path=Value, Mode=TwoWay}" />
+                <TextBox x:Name="R_Value" Grid.Row="0" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,325,0" Focusable="True" Text="{Binding ElementName=R, Path=Value, Mode=TwoWay}" TextChanged="R_Value_TextChanged" />
                 <Slider x:Name="R" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Red" Maximum="255" Minimum="0" IsSnapToTickEnabled="True"  TickFrequency="1" SmallChange="1"/>
-                <TextBox x:Name="G_Value" Grid.Row="1" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,325,0" Focusable="True" Text="{Binding ElementName=G, Path=Value, Mode=TwoWay}"/>
-                <Slider x:Name="G" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Green" Maximum="255" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" SmallChange="1" />
-                <TextBox x:Name="B_Value" Grid.Row="2" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,325,0" Focusable="True" Text="{Binding ElementName=B, Path=Value, Mode=TwoWay}"/>
-                <Slider x:Name="B" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Blue" Maximum="255" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" SmallChange="1" />
+                <TextBox x:Name="G_Value" Grid.Row="1" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,325,0" Focusable="True" Text="{Binding ElementName=G, Path=Value, Mode=TwoWay}" TextChanged="G_Value_TextChanged"/>
+                <Slider x:Name="G" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Green" Maximum="255" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" SmallChange="1"/>
+                <TextBox x:Name="B_Value" Grid.Row="2" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,325,0" Focusable="True" Text="{Binding ElementName=B, Path=Value, Mode=TwoWay}" TextChanged="B_Value_TextChanged"/>
+                <Slider x:Name="B" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Blue" Maximum="255" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" SmallChange="1"/>
             </Grid>
-            <Border x:Name="Color"
-                Grid.Column="1"
-                BorderBrush="Black"
-                BorderThickness="5"
-                CornerRadius="3"
+            <Border x:Name="BorderColor"
+                    Grid.Column="1"
+                    BorderBrush="Black"
+                    BorderThickness="5"
+                    CornerRadius="3"
                 />
+            <Rectangle x:Name="Colors"
+                       Grid.Column="1">
+                <Rectangle.Fill>
+                    <SolidColorBrush x:Name="aColor"/>
+                </Rectangle.Fill>
+            </Rectangle>
             <Grid x:Name="CMYK" Grid.Column="2" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -53,14 +59,14 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBox x:Name="C_Value" Grid.Row="0" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="325,0,0,0" Focusable="True" Text="{Binding ElementName=C, Path=Value, Mode=TwoWay}"/>
-                <Slider x:Name="C" Grid.Row="0" FlowDirection="RightToLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Cyan" Maximum="255" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" SmallChange="1"/>
-                <TextBox x:Name="M_Value" Grid.Row="1" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="325,0,0,0" Focusable="True" Text="{Binding ElementName=M, Path=Value, Mode=TwoWay}"/>
-                <Slider x:Name="M" Grid.Row="1" FlowDirection="RightToLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Magenta" Maximum="255" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" SmallChange="1"/>
-                <TextBox x:Name="Y_Value" Grid.Row="2" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="325,0,0,0" Focusable="True" Text="{Binding ElementName=Y, Path=Value, Mode=TwoWay}"/>
-                <Slider x:Name="Y" Grid.Row="2" FlowDirection="RightToLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Yellow" Maximum="255" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" SmallChange="1"/>
-                <TextBox x:Name="K_Value" Grid.Row="3" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="325,0,0,0" Focusable="True" Text="{Binding ElementName=K, Path=Value, Mode=TwoWay}"/>
-                <Slider x:Name="K" Grid.Row="3" FlowDirection="RightToLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Black" Maximum="255" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" SmallChange="1"/>
+                <TextBox x:Name="C_Value" Grid.Row="0" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="325,0,0,0" Focusable="True" Text="{Binding ElementName=C, Path=Value, Mode=TwoWay}" TextChanged="C_Value_TextChanged"/>
+                <Slider x:Name="C" Grid.Row="0" FlowDirection="RightToLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Cyan" Maximum="100" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" SmallChange="1"/>
+                <TextBox x:Name="M_Value" Grid.Row="1" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="325,0,0,0" Focusable="True" Text="{Binding ElementName=M, Path=Value, Mode=TwoWay}" TextChanged="M_Value_TextChanged"/>
+                <Slider x:Name="M" Grid.Row="1" FlowDirection="RightToLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Magenta" Maximum="100" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" SmallChange="1"/>
+                <TextBox x:Name="Y_Value" Grid.Row="2" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="325,0,0,0" Focusable="True" Text="{Binding ElementName=Y, Path=Value, Mode=TwoWay}" TextChanged="Y_Value_TextChanged"/>
+                <Slider x:Name="Y" Grid.Row="2" FlowDirection="RightToLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Yellow" Maximum="100" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" SmallChange="1"/>
+                <TextBox x:Name="K_Value" Grid.Row="3" TextAlignment="Center" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="325,0,0,0" Focusable="True" Text="{Binding ElementName=K, Path=Value, Mode=TwoWay}" TextChanged="K_Value_TextChanged"/>
+                <Slider x:Name="K" Grid.Row="3" FlowDirection="RightToLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="Black" Maximum="100" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" SmallChange="1"/>
             </Grid>
         </Grid>
         

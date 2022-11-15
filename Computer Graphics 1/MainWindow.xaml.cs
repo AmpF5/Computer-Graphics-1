@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Brushes = System.Windows.Media.Brushes;
+using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
 using Rectangle = System.Windows.Shapes.Rectangle;
 //using Rectangle = System.Windows.Shapes.Rectangle;
@@ -30,6 +32,10 @@ namespace Computer_Graphics_1
         int index;
         bool IsFirstPoint = true;
         Point StartPoint;
+        byte r = 0, g = 0, b = 0;
+        int c = 0, m = 0, y = 0;
+        double k;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -108,6 +114,40 @@ namespace Computer_Graphics_1
 
         }
 
+        private void R_Value_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ChangeColorRgb('r', R_Value);
+        }
+
+        private void B_Value_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ChangeColorRgb('b', B_Value);
+        }
+
+        private void G_Value_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ChangeColorRgb('g', G_Value);
+        }
+
+        private void C_Value_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ChangeColorCmyk('c', C_Value);
+        }
+
+        private void M_Value_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ChangeColorCmyk('m', M_Value);
+        }
+
+        private void Y_Value_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ChangeColorCmyk('y', Y_Value);
+        }
+
+        private void K_Value_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ChangeColorCmyk('k', K_Value);
+        }
         private void Canvas_Board_MouseMove(object sender, MouseEventArgs e)
         {
             //if (!IsFirstPoint)
@@ -143,6 +183,81 @@ namespace Computer_Graphics_1
         private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
 
+        }
+        private void ChangeColorRgb(char colorLetter, TextBox textBox)
+        {
+            if (textBox.Text == "") textBox.Text = "0";
+            var x = Byte.Parse(textBox.Text);
+            switch(colorLetter)
+            {
+                case 'r':
+                    r = x;
+                    break;
+                case 'g':
+                    g = x;
+                    break;
+                case 'b':
+                    b = x;
+                    break;
+            }
+            RgbToCmyk(r, g, b);
+            var color = Color.FromRgb(r, g, b);
+            aColor.Color = color;
+        }
+        private void ChangeColorCmyk(char colorLetter, TextBox textBox)
+        {
+            if (textBox.Text == "") textBox.Text = "0";
+            var x = Int32.Parse(textBox.Text);
+            switch (colorLetter)
+            {
+                case 'c':
+                    c = x;
+                    break;
+                case 'm':
+                    m = x;
+                    break;
+                case 'y':
+                    y = x;
+                    break;
+                case 'k':
+                    k = x;
+                    break;
+            }
+            CmykToRgb(c, m, y, k);
+            
+        }
+        private void RgbToCmyk(byte r, byte g, byte b)
+        {
+            var Pr = r / 255.0;
+            var Pg = g / 255.0;
+            var Pb = b / 255.0;
+            k = Math.Min(1 - Pr, Math.Min(1 - Pg, 1 - Pb));
+            c = (int)((1 - Pr - k) / (1 - k) * 100);
+            //if (Double.IsNaN(c)) c = 0;
+            m = (int)((1 - Pg - k) / (1 - k) * 100);
+            //if (Double.IsNaN(m)) m = 0;
+            y = (int)((1 - Pb - k) / (1 - k) * 100);
+            //if (Double.IsNaN(y)) y = 0;
+            //C_Value.Text = c.ToString();
+            //Y_Value.Text = y.ToString();
+            //M_Value.Text = m.ToString();
+            //K_Value.Text = Math.Round(k * 100, 0).ToString();
+
+        }
+        private void CmykToRgb(int c, int m, int y, double k)
+        {
+            var Pc = c / 100.0;
+            var Pm = m / 100.0;
+            var Py = y / 100.0;
+            var Pk = k / 100.0;
+            byte r = (byte)((1 - Math.Min(1.0, Pc * (1.0 - Pk) + Pk)) * 255);
+            byte g = (byte)((1 - Math.Min(1.0, Pm * (1.0 - Pk) + Pk)) * 255);
+            byte b = (byte)((1 - Math.Min(1.0, Py * (1.0 - Pk) + Pk)) * 255);
+            //R_Value.Text = r.ToString();
+            //G_Value.Text = g.ToString();
+            //B_Value.Text = b.ToString();
+            var color = Color.FromRgb(r, g, b);
+            aColor.Color = color;
         }
     }
 }
