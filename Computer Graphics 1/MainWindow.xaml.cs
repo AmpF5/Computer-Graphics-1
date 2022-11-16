@@ -33,8 +33,12 @@ namespace Computer_Graphics_1
         bool IsFirstPoint = true;
         Point StartPoint;
         byte r = 0, g = 0, b = 0;
-        int c = 0, m = 0, y = 0;
+        double c = 0, m = 0, y = 0;
         double k;
+        SolidColorBrush brush = new(Color.FromRgb(0,0,0));
+        protected bool isDragging;
+        private Point clickPosition;
+        private TranslateTransform originTT;
 
         public MainWindow()
         {
@@ -43,18 +47,53 @@ namespace Computer_Graphics_1
 
         private void Line_Click(object sender, RoutedEventArgs e)
         {
-            index = 0;
-
+            if(index == 0)
+            {
+                index = -1;
+                Line_Button.BorderBrush = Brushes.Gray;
+                IsFirstPoint = false;
+            }
+            else
+            {
+                index = 0;
+                Line_Button.BorderBrush = Brushes.Aquamarine;
+                Rectangle_Button.BorderBrush = Brushes.Gray;
+                Circle_Button.BorderBrush = Brushes.Gray;
+            }
         }
 
         private void Rectangle_Click(object sender, RoutedEventArgs e)
         {
-            index = 1;
+            if(index == 1)
+            {
+                index = -1;
+                Rectangle_Button.BorderBrush = Brushes.Gray;
+                IsFirstPoint = false;
+            }
+            else
+            {
+                index = 1;
+                Line_Button.BorderBrush = Brushes.Gray;
+                Rectangle_Button.BorderBrush = Brushes.Aquamarine;
+                Circle_Button.BorderBrush = Brushes.Gray;
+            }
         }
 
         private void Circle_Click(object sender, RoutedEventArgs e)
         {
-            index = 2;
+            if(index == 2)
+            {
+                index = -1;
+                Circle_Button.BorderBrush = Brushes.Gray;
+                IsFirstPoint = false;
+            }
+            else
+            {
+                index = 2;
+                Line_Button.BorderBrush = Brushes.Gray;
+                Rectangle_Button.BorderBrush = Brushes.Gray;
+                Circle_Button.BorderBrush = Brushes.Aquamarine;
+            }
         }
 
         private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -69,49 +108,110 @@ namespace Computer_Graphics_1
                 switch (index)
                 {
                     case 0:
-                        Line line = new Line()
-                        {
-                            X1 = StartPoint.X,
-                            Y1 = StartPoint.Y,
-                            X2 = Mouse.GetPosition(this).X,
-                            Y2 = Mouse.GetPosition(this).Y,
-                            Stroke = Brushes.Black 
-                        };
-                        Canvas_Board.Children.Add(line);
+                        DrawLine();
                         break;
                     case 1:
-                        double X1 = StartPoint.X;
-                        double Y1 = StartPoint.Y;
-                        double X2 = Mouse.GetPosition(this).X;
-                        double Y2 = Mouse.GetPosition(this).Y;
-                        Rectangle rectangle = new Rectangle()
-                        {
-                            Height = Math.Sqrt(Math.Pow(Y2 - Y1, 2)),
-                            Width = Math.Sqrt(Math.Pow(X1 - X2, 2)),
-                            Stroke = Brushes.Black,
-                            StrokeThickness = 2,
-                        };
-                        Canvas.SetTop(rectangle, Y1);
-                        Canvas.SetLeft(rectangle, X1);
-                        Canvas_Board.Children.Add(rectangle);
+                        DrawRectangle();
                         break;
                     case 2:
-                        X1 = StartPoint.X;
-                        Y1 = StartPoint.Y;
-                        X2 = Mouse.GetPosition(this).X;
-                        Y2 = Mouse.GetPosition(this).Y;
-                        Ellipse ellipse = new();
-                        ellipse.Width = ellipse.Height = Math.Sqrt(Math.Pow(X2 - X1, 2) + Math.Pow(Y2 - Y1, 2));
-                        ellipse.Stroke = Brushes.Black;
-                        ellipse.StrokeThickness = 2;
-                        Canvas.SetTop(ellipse, Y1);
-                        Canvas.SetLeft(ellipse, X1);
-                        Canvas_Board.Children.Add(ellipse);
+                        DrawCircle();
                         break;
                 }
                 IsFirstPoint = true;
             }
 
+        }
+
+        private void DrawCircle()
+        {
+            double X1C = StartPoint.X;
+            double Y1C = StartPoint.Y;
+            double X2C = Mouse.GetPosition(this).X;
+            double Y2C = Mouse.GetPosition(this).Y;
+            Ellipse ellipse = new();
+            ellipse.Width = ellipse.Height = Math.Sqrt(Math.Pow(X2C - X1C, 2) + Math.Pow(Y2C - Y1C, 2));
+            ellipse.Stroke = brush;
+            ellipse.StrokeThickness = 2;
+            Canvas.SetTop(ellipse, Y1C);
+            Canvas.SetLeft(ellipse, X1C);
+            ellipse.MouseRightButtonDown += Shape_MouseRightButtonDown;
+            ellipse.MouseMove += Shape_MouseMove;
+            ellipse.MouseRightButtonUp += Shape_MouseRightButtonUp;
+            Canvas_Board.Children.Add(ellipse);
+        }
+
+        private void DrawRectangle()
+        {
+            double X1R = StartPoint.X;
+            double Y1R = StartPoint.Y;
+            double X2R = Mouse.GetPosition(this).X;
+            double Y2R = Mouse.GetPosition(this).Y;
+            Rectangle rectangle = new Rectangle()
+            {
+                Height = Math.Sqrt(Math.Pow(Y2R - Y1R, 2)),
+                Width = Math.Sqrt(Math.Pow(X1R - X2R, 2)),
+                Stroke = brush,
+                StrokeThickness = 2,
+            };
+            Canvas.SetTop(rectangle, Y1R);
+            Canvas.SetLeft(rectangle, X1R);
+            Canvas_Board.Children.Add(rectangle);
+            rectangle.MouseRightButtonDown += Shape_MouseRightButtonDown;
+            rectangle.MouseMove += Shape_MouseMove;
+            rectangle.MouseRightButtonUp += Shape_MouseRightButtonUp;
+        }
+
+        private void DrawLine()
+        {
+            Line line = new Line()
+            {
+                X1 = StartPoint.X,
+                Y1 = StartPoint.Y,
+                X2 = Mouse.GetPosition(this).X,
+                Y2 = Mouse.GetPosition(this).Y,
+                Stroke = brush,
+                StrokeThickness = 8
+            };
+            line.MouseRightButtonDown += Shape_MouseRightButtonDown;
+            line.MouseMove += Shape_MouseMove;
+            line.MouseRightButtonUp += Shape_MouseRightButtonUp;
+            Canvas_Board.Children.Add(line);
+
+        }
+        private void OnDragDelta(object sender, DragDeltaEventArgs e)
+        {
+            var thumb = sender as Thumb;
+            Canvas.SetLeft(thumb, Canvas.GetLeft(thumb) + e.HorizontalChange);
+            Canvas.SetTop(thumb, Canvas.GetTop(thumb) + e.VerticalChange);
+        }
+
+        private void Shape_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            isDragging = false;
+            var draggable = sender as Shape;
+            draggable.ReleaseMouseCapture();
+        }
+
+        private void Shape_MouseMove(object sender, MouseEventArgs e)
+        {
+            var draggableControl = sender as Shape;
+            if (isDragging && draggableControl != null && index == -1)
+            {
+                Point currentPosition = e.GetPosition(this);
+                var transform = draggableControl.RenderTransform as TranslateTransform ?? new TranslateTransform();
+                transform.X = originTT.X + (currentPosition.X - clickPosition.X);
+                transform.Y = originTT.Y + (currentPosition.Y - clickPosition.Y);
+                draggableControl.RenderTransform = new TranslateTransform(transform.X, transform.Y);
+            }
+        }
+
+        private void Shape_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var draggableControl = sender as Shape;
+            originTT = draggableControl.RenderTransform as TranslateTransform ?? new TranslateTransform();
+            isDragging = true;
+            clickPosition = e.GetPosition(this);
+            draggableControl.CaptureMouse();
         }
 
         private void R_Value_TextChanged(object sender, TextChangedEventArgs e)
@@ -180,10 +280,23 @@ namespace Computer_Graphics_1
             //}
         }
 
+        private void Change_Color_Click(object sender, RoutedEventArgs e)
+        {
+            brush = GetBrush();
+        }
+        private SolidColorBrush GetBrush()
+        {
+            var brush = new SolidColorBrush(aColor.Color);
+            return brush;
+        }
+
         private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
 
         }
+
+     
+
         private void ChangeColorRgb(char colorLetter, TextBox textBox)
         {
             if (textBox.Text == "") textBox.Text = "0";
@@ -207,7 +320,7 @@ namespace Computer_Graphics_1
         private void ChangeColorCmyk(char colorLetter, TextBox textBox)
         {
             if (textBox.Text == "") textBox.Text = "0";
-            var x = Int32.Parse(textBox.Text);
+            var x = Double.Parse(textBox.Text);
             switch (colorLetter)
             {
                 case 'c':
@@ -224,7 +337,7 @@ namespace Computer_Graphics_1
                     break;
             }
             CmykToRgb(c, m, y, k);
-            
+
         }
         private void RgbToCmyk(byte r, byte g, byte b)
         {
@@ -238,13 +351,13 @@ namespace Computer_Graphics_1
             //if (Double.IsNaN(m)) m = 0;
             y = (int)((1 - Pb - k) / (1 - k) * 100);
             //if (Double.IsNaN(y)) y = 0;
-            //C_Value.Text = c.ToString();
-            //Y_Value.Text = y.ToString();
-            //M_Value.Text = m.ToString();
-            //K_Value.Text = Math.Round(k * 100, 0).ToString();
-
+            C_Value.Text = c.ToString();
+            Y_Value.Text = y.ToString();
+            M_Value.Text = m.ToString();
+            K_Value.Text = Math.Round(k * 100, 0).ToString();
+ 
         }
-        private void CmykToRgb(int c, int m, int y, double k)
+        private void CmykToRgb(double c, double m, double y, double k)
         {
             var Pc = c / 100.0;
             var Pm = m / 100.0;
