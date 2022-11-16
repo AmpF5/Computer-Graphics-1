@@ -14,10 +14,17 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Canvas x:Name="Canvas_Board" Focusable="True" Background="White" MouseLeftButtonDown="canvas_MouseLeftButtonDown" MouseLeftButtonUp="canvas_MouseLeftButtonUp" MouseMove="Canvas_Board_MouseMove">
+                <!--<Thumb x:Name="Thumb_Board" DragDelta="OnDragDelta" Canvas.Left="0" Canvas.Top="0">
+                    <Thumb.Template>
+                        <ControlTemplate>
+                            <ContentControl x:Name="test123" Content="{Binding }" />
+                        </ControlTemplate>
+                    </Thumb.Template>
+                </Thumb>-->
             </Canvas>
         </Grid>
         <Grid x:Name="Choose_Buttons" Grid.Row="1">
-            <Button x:Name="Line_Button" Content="1" Width="50" HorizontalAlignment="Center" Margin="0,0,100,0" Click="Line_Click" />
+            <Button x:Name="Line_Button" Content="1" Width="50" HorizontalAlignment="Center" Margin="0,0,100,0" Click="Line_Click" BorderBrush="Aquamarine"  />
             <Button x:Name="Rectangle_Button" Content="2" Width="50" HorizontalAlignment="Center" Click="Rectangle_Click" />
             <Button x:Name="Circle_Button" Content="3" Width="50" HorizontalAlignment="Center" Margin="100,0,0,0" Click="Circle_Click"/>
             <Button x:Name="Change_Color" Content="Select Color" Width="50" HorizontalAlignment="Center" Margin="200,0,0,0" Click="Change_Color_Click"/>
