@@ -119,7 +119,25 @@ namespace Computer_Graphics_1
                 }
                 IsFirstPoint = true;
             }
-
+        }
+        private void Create_Shape_Click(object sender, RoutedEventArgs e)
+        {
+            var x1 = Double.Parse(X_1.Text);
+            var y1 = Double.Parse(Y_1.Text);
+            var x2 = Double.Parse(X_2.Text);
+            var y2 = Double.Parse(Y_2.Text);
+            switch(index)
+            {
+                case 0:
+                    DrawLine(x1, y1, x2, y2);
+                    break;
+                case 1:
+                    DrawRectangle(x1, y1, x2, y2);
+                    break;
+                case 2:
+                    DrawCircle(x1, y1, x2, y2);
+                    break;
+            }
         }
 
         private void DrawCircle()
@@ -131,9 +149,22 @@ namespace Computer_Graphics_1
             Ellipse ellipse = new();
             ellipse.Width = ellipse.Height = Math.Sqrt(Math.Pow(X2C - X1C, 2) + Math.Pow(Y2C - Y1C, 2));
             ellipse.Stroke = brush;
-            ellipse.StrokeThickness = 2;
+            ellipse.StrokeThickness = 3;
             Canvas.SetTop(ellipse, Y1C);
             Canvas.SetLeft(ellipse, X1C);
+            ellipse.MouseRightButtonDown += Shape_MouseRightButtonDown;
+            ellipse.MouseMove += Shape_MouseMove;
+            ellipse.MouseRightButtonUp += Shape_MouseRightButtonUp;
+            Canvas_Board.Children.Add(ellipse);
+        }
+        private void DrawCircle(double x1, double y1, double x2, double y2)
+        {
+            Ellipse ellipse = new();
+            ellipse.Width = ellipse.Height = Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
+            ellipse.Stroke = brush;
+            ellipse.StrokeThickness = 3;
+            Canvas.SetTop(ellipse, y1);
+            Canvas.SetLeft(ellipse, x1);
             ellipse.MouseRightButtonDown += Shape_MouseRightButtonDown;
             ellipse.MouseMove += Shape_MouseMove;
             ellipse.MouseRightButtonUp += Shape_MouseRightButtonUp;
@@ -151,14 +182,30 @@ namespace Computer_Graphics_1
                 Height = Math.Sqrt(Math.Pow(Y2R - Y1R, 2)),
                 Width = Math.Sqrt(Math.Pow(X1R - X2R, 2)),
                 Stroke = brush,
-                StrokeThickness = 2,
+                StrokeThickness = 4,
             };
             Canvas.SetTop(rectangle, Y1R);
             Canvas.SetLeft(rectangle, X1R);
-            Canvas_Board.Children.Add(rectangle);
             rectangle.MouseRightButtonDown += Shape_MouseRightButtonDown;
             rectangle.MouseMove += Shape_MouseMove;
             rectangle.MouseRightButtonUp += Shape_MouseRightButtonUp;
+            Canvas_Board.Children.Add(rectangle);
+        }
+        private void DrawRectangle(double x1, double y1, double x2, double y2)
+        {
+            Rectangle rectangle = new Rectangle()
+            {
+                Height = Math.Sqrt(Math.Pow(y2 - y1, 2)),
+                Width = Math.Sqrt(Math.Pow(x1 - x2, 2)),
+                Stroke = brush,
+                StrokeThickness = 4
+            };
+            Canvas.SetTop(rectangle, y1);
+            Canvas.SetLeft(rectangle, x1);
+            rectangle.MouseRightButtonDown += Shape_MouseRightButtonDown;
+            rectangle.MouseMove += Shape_MouseMove;
+            rectangle.MouseRightButtonUp += Shape_MouseRightButtonUp;
+            Canvas_Board.Children.Add(rectangle);
         }
 
         private void DrawLine()
@@ -170,13 +217,28 @@ namespace Computer_Graphics_1
                 X2 = Mouse.GetPosition(this).X,
                 Y2 = Mouse.GetPosition(this).Y,
                 Stroke = brush,
-                StrokeThickness = 8
+                StrokeThickness = 5
             };
             line.MouseRightButtonDown += Shape_MouseRightButtonDown;
             line.MouseMove += Shape_MouseMove;
             line.MouseRightButtonUp += Shape_MouseRightButtonUp;
             Canvas_Board.Children.Add(line);
-
+        }
+        private void DrawLine(double x1, double y1, double x2, double y2)
+        {
+            Line line = new Line()
+            {
+                X1 = x1,
+                Y1 = y1,
+                X2 = x2,
+                Y2 = y2,
+                Stroke = brush,
+                StrokeThickness = 5
+            };
+            line.MouseRightButtonDown += Shape_MouseRightButtonDown;
+            line.MouseMove += Shape_MouseMove;
+            line.MouseRightButtonUp += Shape_MouseRightButtonUp;
+            Canvas_Board.Children.Add(line);
         }
         private void OnDragDelta(object sender, DragDeltaEventArgs e)
         {
@@ -212,6 +274,23 @@ namespace Computer_Graphics_1
             isDragging = true;
             clickPosition = e.GetPosition(this);
             draggableControl.CaptureMouse();
+            if(sender is Line)
+            {
+                var tempLine = sender as Line;
+                X_1.Text = tempLine.X1.ToString();
+                Y_1.Text = tempLine.Y1.ToString();
+                X_2.Text = tempLine.X2.ToString();
+                Y_2.Text = tempLine.Y2.ToString();
+            }
+            if(sender is Rectangle)
+            {
+                var tempRectangle = sender as Rectangle;
+                var tempX1 = Canvas.GetLeft(tempRectangle);
+                var tempY1 = Canvas.GetTop(tempRectangle);
+                X_1.Text = tempX1.ToString();
+                Y_1.Text = tempY1.ToString();
+
+            }
         }
 
         private void R_Value_TextChanged(object sender, TextChangedEventArgs e)
@@ -287,6 +366,8 @@ namespace Computer_Graphics_1
         private SolidColorBrush GetBrush()
         {
             var brush = new SolidColorBrush(aColor.Color);
+            //brush.Color.R == 0 && brush.Color.G == 0 && brush.Color.B == 0 ;
+            Change_Color.BorderBrush = brush;
             return brush;
         }
 
@@ -295,7 +376,6 @@ namespace Computer_Graphics_1
 
         }
 
-     
 
         private void ChangeColorRgb(char colorLetter, TextBox textBox)
         {
