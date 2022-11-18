@@ -27,10 +27,10 @@
             <Label Content="Y2:" Height="23" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="150,0,0,0"/>
             <TextBox x:Name="Y_2" Width="25" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="173,0,0,0"/>
             <Button x:Name="Create_Shape" Content="Create" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="198,0,0,0" Click="Create_Shape_Click" />
-            <Button x:Name="Line_Button" Content="1" Width="50" HorizontalAlignment="Center" Margin="0,0,100,0" Click="Line_Click" BorderBrush="Aquamarine"  />
-            <Button x:Name="Rectangle_Button" Content="2" Width="50" HorizontalAlignment="Center" Click="Rectangle_Click" />
-            <Button x:Name="Circle_Button" Content="3" Width="50" HorizontalAlignment="Center" Margin="100,0,0,0" Click="Circle_Click"/>
-            <Button x:Name="Change_Color" Content="Select Color" BorderThickness="2" BorderBrush="Black"  Width="50" HorizontalAlignment="Center" Margin="200,0,0,0" Click="Change_Color_Click"/>
+            <Button x:Name="Line_Button"  Content="Line" Width="50" HorizontalAlignment="Center" Margin="0,0,100,0" Click="Line_Click" BorderBrush="Aquamarine"  />
+            <Button x:Name="Rectangle_Button" Content="Rect" Width="50" HorizontalAlignment="Center" Click="Rectangle_Click" />
+            <Button x:Name="Circle_Button" Content="Circle" Width="50" HorizontalAlignment="Center" Margin="100,0,0,0" Click="Circle_Click"/>
+            <Button x:Name="Change_Color" Content="Color" BorderThickness="2" BorderBrush="Black"  Width="50" HorizontalAlignment="Center" Margin="200,0,0,0" Click="Change_Color_Click"/>
         </Grid>
         <Grid x:Name="RGB_CMYK" Grid.Row="3" MinWidth="1" >
             <Grid.ColumnDefinitions>

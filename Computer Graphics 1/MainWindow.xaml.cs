@@ -431,6 +431,12 @@ namespace Computer_Graphics_1
             //if (Double.IsNaN(m)) m = 0;
             y = (int)((1 - Pb - k) / (1 - k) * 100);
             //if (Double.IsNaN(y)) y = 0;
+            if(r == 0 && g == 0 && b == 0)
+            {
+                c = 0;
+                m = 0;
+                y = 0;
+            }
             C_Value.Text = c.ToString();
             Y_Value.Text = y.ToString();
             M_Value.Text = m.ToString();
