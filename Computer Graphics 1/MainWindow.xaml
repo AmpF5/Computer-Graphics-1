@@ -13,9 +13,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <Canvas x:Name="Canvas_Board" Focusable="True" Background="White" MouseLeftButtonDown="canvas_MouseLeftButtonDown" MouseLeftButtonUp="canvas_MouseLeftButtonUp" MouseMove="Canvas_Board_MouseMove">
-   
-            </Canvas>
+            <AdornerDecorator>
+                <Canvas x:Name="Canvas_Board" Focusable="True" Background="White" MouseLeftButtonDown="canvas_MouseLeftButtonDown" MouseLeftButtonUp="canvas_MouseLeftButtonUp" MouseMove="Canvas_Board_MouseMove">
+                </Canvas>
+            </AdornerDecorator>
         </Grid>
         <Grid x:Name="Choose_Buttons" Grid.Row="1">
             <Label Content="X1:" Height="23" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" />

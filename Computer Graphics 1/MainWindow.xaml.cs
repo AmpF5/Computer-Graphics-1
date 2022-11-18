@@ -39,10 +39,13 @@ namespace Computer_Graphics_1
         protected bool isDragging;
         private Point clickPosition;
         private TranslateTransform originTT;
+        private AdornerLayer _adornerLayer;
+        
 
         public MainWindow()
         {
             InitializeComponent();
+            _adornerLayer = AdornerLayer.GetAdornerLayer(Canvas_Board);
         }
 
         private void Line_Click(object sender, RoutedEventArgs e)
@@ -156,6 +159,7 @@ namespace Computer_Graphics_1
             ellipse.MouseMove += Shape_MouseMove;
             ellipse.MouseRightButtonUp += Shape_MouseRightButtonUp;
             Canvas_Board.Children.Add(ellipse);
+            _adornerLayer.Add(new Resize(ellipse));
         }
         private void DrawCircle(double x1, double y1, double x2, double y2)
         {
@@ -169,6 +173,7 @@ namespace Computer_Graphics_1
             ellipse.MouseMove += Shape_MouseMove;
             ellipse.MouseRightButtonUp += Shape_MouseRightButtonUp;
             Canvas_Board.Children.Add(ellipse);
+            _adornerLayer.Add(new Resize(ellipse));
         }
 
         private void DrawRectangle()
@@ -190,6 +195,7 @@ namespace Computer_Graphics_1
             rectangle.MouseMove += Shape_MouseMove;
             rectangle.MouseRightButtonUp += Shape_MouseRightButtonUp;
             Canvas_Board.Children.Add(rectangle);
+            _adornerLayer.Add(new Resize(rectangle));
         }
         private void DrawRectangle(double x1, double y1, double x2, double y2)
         {
@@ -206,6 +212,7 @@ namespace Computer_Graphics_1
             rectangle.MouseMove += Shape_MouseMove;
             rectangle.MouseRightButtonUp += Shape_MouseRightButtonUp;
             Canvas_Board.Children.Add(rectangle);
+            _adornerLayer.Add(new Resize(rectangle));
         }
 
         private void DrawLine()
@@ -223,6 +230,7 @@ namespace Computer_Graphics_1
             line.MouseMove += Shape_MouseMove;
             line.MouseRightButtonUp += Shape_MouseRightButtonUp;
             Canvas_Board.Children.Add(line);
+            _adornerLayer.Add(new Resize(line));
         }
         private void DrawLine(double x1, double y1, double x2, double y2)
         {
@@ -239,6 +247,8 @@ namespace Computer_Graphics_1
             line.MouseMove += Shape_MouseMove;
             line.MouseRightButtonUp += Shape_MouseRightButtonUp;
             Canvas_Board.Children.Add(line);
+            _adornerLayer.Add(new Resize(line));
+
         }
         private void OnDragDelta(object sender, DragDeltaEventArgs e)
         {
